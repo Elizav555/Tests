@@ -13,7 +13,7 @@ namespace MirTesen
         public void TheLoginTest()
         {
             GoToHomePage();
-            Login(new Account(Secret.Email,Secret.Password));
+            Login(new Account(Secret.Email, Secret.Password));
         }
 
         [Test]
@@ -21,7 +21,7 @@ namespace MirTesen
         {
             GoToHomePage();
             Login(new Account(Secret.Email,Secret.Password));
-            AddSite(new Site("elizav5","ElizavV","Wow","Descr","key"));
+            AddSite(new Site("55elizav5555555","Elizavvv","Wow","Descr","key"));
         }
     }
 }

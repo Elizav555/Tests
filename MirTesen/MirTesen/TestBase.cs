@@ -10,6 +10,7 @@ using OpenQA.Selenium.Support;
 using System.Security.Principal;
 using MirTesen.model;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Support.Extensions;
 
 namespace MirTesen
 {
@@ -62,8 +63,11 @@ namespace MirTesen
 
         public void AddSite(Site site)
         {
-            var element = new WebDriverWait(driver, TimeSpan.FromSeconds(5)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='header-profile-tooltip']")));
+            Thread.Sleep(2000);
+            var element = new WebDriverWait(driver, TimeSpan.FromSeconds(5000)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='header-profile-tooltip']")));
+            Thread.Sleep(2000); 
             new Actions(driver).MoveToElement(element).Perform();
+            Thread.Sleep(2000);
             driver.FindElement(By.LinkText("Создать сайт")).Click();
             driver.Navigate().GoToUrl("https://mirtesen.ru/create/");
             driver.FindElement(By.Name("domain")).Click();
@@ -82,7 +86,10 @@ namespace MirTesen
             driver.FindElement(By.XPath("//textarea[@name='keywords']")).Click();
             driver.FindElement(By.XPath("//textarea[@name='keywords']")).Clear();
             driver.FindElement(By.XPath("//textarea[@name='keywords']")).SendKeys(site.KeyWords);
-            driver.FindElement(By.XPath("//input[@value='Создать сайт']")).Click();
+            Thread.Sleep(5000);
+            var button = new WebDriverWait(driver, TimeSpan.FromSeconds(3000)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@value='Создать сайт']")));
+            driver.ExecuteJavaScript("arguments[0].click()", button);
+            Thread.Sleep(5000);
             driver.Navigate().GoToUrl(site.Address);
         }
     }
