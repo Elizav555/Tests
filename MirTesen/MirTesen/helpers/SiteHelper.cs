@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.Extensions;
 
 namespace MirTesen.helpers
 {
-    public class SiteHelper:HelperBase
+    public class SiteHelper : HelperBase
     {
 
         public SiteHelper(ApplicationManager applicationManager) : base(applicationManager) { }
@@ -32,9 +32,6 @@ namespace MirTesen.helpers
             driver.FindElement(By.Name("name")).Click();
             driver.FindElement(By.Name("name")).Clear();
             driver.FindElement(By.Name("name")).SendKeys(site.Name);
-            driver.FindElement(By.Name("tagLine")).Click();
-            driver.FindElement(By.Name("tagLine")).Clear();
-            driver.FindElement(By.Name("tagLine")).SendKeys(site.Tag);
             driver.FindElement(By.XPath("//textarea[@name='description']")).Click();
             driver.FindElement(By.XPath("//textarea[@name='description']")).Clear();
             driver.FindElement(By.XPath("//textarea[@name='description']")).SendKeys(site.Description);
@@ -45,7 +42,38 @@ namespace MirTesen.helpers
             var button = new WebDriverWait(driver, TimeSpan.FromSeconds(3000)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@value='Создать сайт']")));
             driver.ExecuteJavaScript("arguments[0].click()", button);
             Thread.Sleep(5000);
-            driver.Navigate().GoToUrl(site.Address);
+        }
+
+        public void SelectCreatedSite(string siteAddress)
+        {
+            driver.Navigate().GoToUrl(siteAddress);
+            var button = new WebDriverWait(driver, TimeSpan.FromSeconds(3000)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("Настройки")));
+            driver.ExecuteJavaScript("arguments[0].click()", button);
+        }
+
+        public Site GetCreatedSiteData()
+        {
+            string name = driver.FindElement(By.XPath("//*[@id=\"content-column\"]/div/div[1]/form/div[2]/div[1]/input")).GetAttribute("value");
+            string desc = driver.FindElement(By.XPath("//*[@id=\"content-column\"]/div/div[1]/form/div[2]/div[2]/textarea")).GetAttribute("value");
+            string keyWords = driver.FindElement(By.XPath("//*[@id=\"content-column\"]/div/div[1]/form/div[2]/div[3]/div/div[1]/button/span")).Text;
+
+            driver.FindElement(By.LinkText("Настроить")).Click();
+            string domain = driver.FindElement(By.XPath("//div[@id='content-column']/div/div[11]/form/div/div/ul/li")).Text.Split(".").First();
+
+            return new Site(domain: domain, name: name, desc: desc, keyWords: keyWords);
+        }
+
+        public void EditSite(Site newSite)
+        {
+            driver.FindElement(By.Name("name")).Click();
+            driver.FindElement(By.Name("name")).Clear();
+            driver.FindElement(By.Name("name")).SendKeys(newSite.Name);
+            var textArea = new WebDriverWait(driver, TimeSpan.FromSeconds(3000)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//textarea[@name='description']")));
+            driver.ExecuteJavaScript("arguments[0].click()", textArea);
+            driver.FindElement(By.XPath("//textarea[@name='description']")).Clear();
+            driver.FindElement(By.XPath("//textarea[@name='description']")).SendKeys(newSite.Description);
+            var button = new WebDriverWait(driver, TimeSpan.FromSeconds(3000)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//div[@id='content-column']/div/div/form/div[3]/div/button")));
+            driver.ExecuteJavaScript("arguments[0].click()", button);
         }
     }
 }

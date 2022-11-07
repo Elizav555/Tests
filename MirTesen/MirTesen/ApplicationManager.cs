@@ -19,19 +19,36 @@ namespace MirTesen
         private NavigationHelper navigation;
         private LoginHelper auth;
         private SiteHelper site;
+        private AccountHelper account;
 
-        public ApplicationManager()
+        private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
+
+        public static ApplicationManager GetInstance()
+        {
+            if (!app.IsValueCreated)
+            {
+                ApplicationManager newInstance = new ApplicationManager();
+                newInstance.Navigation.GoToHomePage();
+                app.Value = newInstance;
+            }
+            return app.Value;
+        }
+
+        private ApplicationManager()
         {
             driver = new ChromeDriver(@"D:\Tests\");
             baseURL = "https://www.google.com/";
             verificationErrors = new StringBuilder();
 
+            driver.Manage().Window.Maximize();
+
             site = new SiteHelper(this);
             auth = new LoginHelper(this);
             navigation = new NavigationHelper(this, baseURL);
+            account = new AccountHelper(this);
         }
 
-        public void Stop()
+        ~ApplicationManager()
         {
             try
             {
@@ -72,6 +89,14 @@ namespace MirTesen
             get
             {
                 return site;
+            }
+        }
+
+        public AccountHelper Account
+        {
+            get
+            {
+                return account;
             }
         }
     }

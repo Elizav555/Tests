@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MirTesen.model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,14 @@ namespace MirTesen.helpers
             driver.Navigate().GoToUrl("https://mirtesen.ru/");
         }
 
+        public void GoToSitePage(string siteAddress)
+        {
+            driver.Navigate().GoToUrl(siteAddress);
+        }
+
+        public void GoToProfile()
+        {
+            driver.Navigate().GoToUrl("https://mirtesen.ru/people/587588326");
+        }
     }
 }
