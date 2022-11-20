@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using MirTesen.model;
 
 namespace MirTesen
 {
@@ -37,7 +38,7 @@ namespace MirTesen
         private ApplicationManager()
         {
             driver = new ChromeDriver(@"D:\Tests\");
-            baseURL = "https://www.google.com/";
+            baseURL = Settings.BaseUrl();
             verificationErrors = new StringBuilder();
 
             driver.Manage().Window.Maximize();

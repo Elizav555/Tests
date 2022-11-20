@@ -18,7 +18,7 @@ namespace MirTesen.helpers
 
         public void GoToHomePage()
         {
-            driver.Navigate().GoToUrl("https://mirtesen.ru/");
+            driver.Navigate().GoToUrl(baseURL);
         }
 
         public void GoToSitePage(string siteAddress)
@@ -26,9 +26,9 @@ namespace MirTesen.helpers
             driver.Navigate().GoToUrl(siteAddress);
         }
 
-        public void GoToProfile()
+        public void GoToProfile(string profileId)
         {
-            driver.Navigate().GoToUrl("https://mirtesen.ru/people/587588326");
+            driver.Navigate().GoToUrl($"https://mirtesen.ru/people/{profileId}");
         }
     }
 }

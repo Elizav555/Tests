@@ -18,10 +18,12 @@ namespace MirTesen
     {
         protected ApplicationManager app;
 
+
         [SetUp]
         public void SetupTest()
         {
             app = ApplicationManager.GetInstance();
+            app.Navigation.GoToHomePage();
         }
     }
 }
