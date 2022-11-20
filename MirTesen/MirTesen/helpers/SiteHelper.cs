@@ -60,7 +60,7 @@ namespace MirTesen.helpers
             driver.FindElement(By.LinkText("Настроить")).Click();
             string domain = driver.FindElement(By.XPath("//div[@id='content-column']/div/div[11]/form/div/div/ul/li")).Text.Split(".").First();
 
-            return new Site(domain: domain, name: name, desc: desc, keyWords: keyWords);
+            return new Site(domain: domain, name: name, description: desc, keyWords: keyWords);
         }
 
         public void EditSite(Site newSite)

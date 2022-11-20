@@ -1,7 +1,10 @@
 using MirTesen.model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
 using System.Text;
+using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace MirTesen
 {
@@ -22,14 +25,25 @@ namespace MirTesen
             Assert.That(createdEmail, Is.EqualTo(account.Email));
         }
 
-        [Test]
-        public void BTheAddSiteTest()
+        public static List<Site> SiteDataFromJsonFile()
+        {
+            string folder = @"D:\Github\Tests\";
+            string fileName = "siteData.json";
+            string fileEditedName = "siteEditedData.json";
+            using (FileStream fs = new FileStream(folder+fileName, FileMode.OpenOrCreate))
+            {
+                return JsonSerializer.Deserialize<List<Site>>(fs);
+            }
+        }
+
+
+        [Test, TestCaseSource(nameof(SiteDataFromJsonFile))]
+        public void BTheAddSiteTest(Site site)
         {
             //app.Navigation.GoToHomePage();
             //app.Auth.Login(new Account(Secret.Email,Secret.Password));
             //Thread.Sleep(5000);
 
-            var site = new Site(domain: "55551111elizav5555555", name: "Elizavvv1111", desc: "Descr", keyWords: "key");
             app.Site.AddSite(site);
             app.Navigation.GoToSitePage(site.Address);
 
@@ -40,14 +54,24 @@ namespace MirTesen
             Assert.That(createdSite.Domain, Is.EqualTo(site.Domain));
         }
 
-        [Test]
-        public void CTheEditSiteTest()
+        public static List<Site> SiteEditedDataFromJsonFile()
+        {
+            string folder = @"D:\Github\Tests\";
+            string fileEditedName = "siteEditedData.json";
+            using (FileStream fs = new FileStream(folder + fileEditedName, FileMode.OpenOrCreate))
+            {
+                return JsonSerializer.Deserialize<List<Site>>(fs);
+            }
+        }
+
+
+        [Test, TestCaseSource(nameof(SiteEditedDataFromJsonFile))]
+        public void CTheEditSiteTest(Site site)
         {
             //app.Navigation.GoToHomePage();
             //app.Auth.Login(new Account(Secret.Email, Secret.Password));
             //Thread.Sleep(5000);
 
-            var site = new Site(domain: "55551111elizav5555555", name: "Fufufu", desc: "Lililili", keyWords: "key");
             app.Navigation.GoToSitePage(site.Address);
             app.Site.SelectCreatedSite(site.Address);
             app.Site.EditSite(site);

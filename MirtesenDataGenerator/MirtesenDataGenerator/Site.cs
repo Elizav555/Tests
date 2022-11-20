@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MirTesen.model
+namespace MirtesenDataGenerator
 {
     public class Site
     {
-        public Site(string domain, string name, string description, string keyWords)
+        public Site(string domain, string name, string desc, string keyWords)
         {
             Domain = domain;
             Name = name;
-            Description = description;
+            Description = desc;
             KeyWords = keyWords;
         }
 
@@ -22,8 +22,6 @@ namespace MirTesen.model
 
         public string Description { get; set; }
         public string KeyWords { get; set; }
-
-        public string Address { get { return $"https://{Domain}.mirtesen.ru"; } }
 
     }
 }
