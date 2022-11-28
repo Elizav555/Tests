@@ -59,7 +59,7 @@ namespace MirTesen.helpers
                 }
                 Logout();
             }
-            driver.FindElement(By.XPath("//header[@id='header']/div/div/div/div/div[4]/ul/li[2]/button")).Click();
+            driver.FindElement(By.XPath("//header[@id='header']/div/div/div/div/div[3]/ul/li[2]/button")).Click();
             driver.FindElement(By.XPath("(.//*[normalize-space(text()) and normalize-space(.)='Запросить бесплатный звонок'])[1]/following::button[1]")).Click();
             driver.FindElement(By.Id("authFormLoginByEmailEmail")).Click();
             driver.FindElement(By.Id("authFormLoginByEmailEmail")).Clear();
